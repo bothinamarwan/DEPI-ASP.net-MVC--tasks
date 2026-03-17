@@ -1,0 +1,39 @@
+﻿@model MVC_Day2.Models.Student
+
+<h2>Student Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+
+        <dt class="col-sm-2">Age</dt>
+        <dd class="col-sm-10">@Model.Age</dd>
+
+        <dt class="col-sm-2">Department</dt>
+        <dd class="col-sm-10">@Model.Department?.Name</dd>
+    </dl>
+</div>
+
+<h3>Courses & Grades</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var scr in Model.StuCrsRes)
+        {
+            <tr>
+                <td>@scr.Course.Name</td>
+                <td>@scr.Grade</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("ShowAll", "Students")" class="btn btn-primary">Back to List</a>
