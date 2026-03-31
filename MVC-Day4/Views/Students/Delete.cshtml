@@ -1,0 +1,69 @@
+﻿@model MVC_Day2.ViewModels.StudentDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete Student — Warning";
+}
+
+<div class="d-flex align-items-center gap-2 mb-4">
+    <span class="fs-1"></span>
+    <h2 class="mb-0 text-danger">Delete Warning</h2>
+</div>
+
+<div class="card border-danger shadow-sm" style="max-width:540px;">
+    <div class="card-header bg-danger text-white fw-bold">
+        You are about to permanently delete a student
+    </div>
+    <div class="card-body">
+
+        <p class="mb-3">
+            Please review the details below. This action
+            <strong>cannot be undone</strong>.
+        </p>
+
+        <dl class="row">
+            <dt class="col-sm-5">Student ID</dt>
+            <dd class="col-sm-7">@Model.Id</dd>
+
+            <dt class="col-sm-5">Name</dt>
+            <dd class="col-sm-7">@Model.Name</dd>
+
+            <dt class="col-sm-5">Age</dt>
+            <dd class="col-sm-7">@Model.Age</dd>
+
+            <dt class="col-sm-5">Department</dt>
+            <dd class="col-sm-7">@Model.DepartmentName</dd>
+
+            <dt class="col-sm-5">Enrolled Courses</dt>
+            <dd class="col-sm-7">
+                @if (Model.EnrolledCourses > 0)
+                {
+                    <span class="badge bg-warning text-dark">
+                        @Model.EnrolledCourses course enrollment(s) will also be deleted
+                    </span>
+                }
+                else
+                {
+                    <span class="text-muted">None</span>
+                }
+            </dd>
+        </dl>
+
+    </div>
+    <div class="card-footer d-flex gap-3">
+
+        
+        <form asp-action="DeleteConfirmed" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-danger px-4">
+                Yes, Delete Permanently
+            </button>
+        </form>
+
+        
+        <a asp-action="GetAll" class="btn btn-secondary px-4">
+            Cancel
+        </a>
+
+    </div>
+</div>

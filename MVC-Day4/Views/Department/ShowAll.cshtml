@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MVC_Day2.Models.Department>
+
+@{
+    ViewData["Title"] = "All Departments";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>All Departments</h2>
+    <a asp-action="Add" class="btn btn-success">+ Add Department</a>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Manager</th>
+            <th>Students</th>
+            <th>State</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dept in Model)
+        {
+            var state = dept.Students.Count > 50 ? "Main" : "Branch";
+            var badge = state == "Main" ? "bg-success" : "bg-secondary";
+            <tr>
+                <td>@dept.Id</td>
+                <td>@dept.Name</td>
+                <td>@dept.MgrName</td>
+                <td>@dept.Students.Count</td>
+                <td><span class="badge @badge">@state</span></td>
+                <td>
+                    <a asp-action="ShowDetails" asp-route-id="@dept.Id"
+                       class="btn btn-sm btn-primary">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

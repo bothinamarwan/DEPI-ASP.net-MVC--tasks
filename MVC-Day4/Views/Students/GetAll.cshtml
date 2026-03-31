@@ -1,0 +1,131 @@
+﻿@model MVC_Day2.ViewModels.StudentGetAllViewModel
+
+@{
+    ViewData["Title"] = "All Students";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Students</h2>
+    <a asp-action="Add" class="btn btn-success">+ Add Student</a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<form method="get" asp-action="GetAll" class="card card-body bg-light mb-3">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label fw-semibold mb-1">Search by Name</label>
+            <input type="text"
+                   name="searchName"
+                   value="@Model.SearchName"
+                   class="form-control"
+                   placeholder="Type a student name…" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-semibold mb-1">Filter by Department</label>
+            <select name="filterDepartmentId" class="form-select"
+                    asp-items="Model.DepartmentOptions">
+            </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+            <a asp-action="GetAll" class="btn btn-outline-secondary w-100">Clear</a>
+        </div>
+    </div>
+</form>
+
+<p class="text-muted small mb-2">
+    Showing <strong>@Model.Students.Count</strong> of
+    <strong>@Model.TotalRecords</strong> student(s)
+    — Page <strong>@Model.CurrentPage</strong> of <strong>@(Model.TotalPages == 0 ? 1 : Model.TotalPages)</strong>
+</p>
+
+@if (!Model.Students.Any())
+{
+    <div class="alert alert-info">No students match your search criteria.</div>
+}
+else
+{
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Department</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.Students)
+            {
+                <tr>
+                    <td>@s.Id</td>
+                    <td>@s.Name</td>
+                    <td>@s.Age</td>
+                    <td>@s.DepartmentName</td>
+                    <td class="text-center">
+                        <a asp-action="GetById" asp-route-id="@s.Id"
+                           class="btn btn-sm btn-outline-info">Details</a>
+                        <a asp-action="Edit" asp-route-id="@s.Id"
+                           class="btn btn-sm btn-outline-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@s.Id"
+                           class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Student pagination">
+            <ul class="pagination justify-content-center">
+
+                
+                <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="GetAll"
+                       asp-route-searchName="@Model.SearchName"
+                       asp-route-filterDepartmentId="@Model.FilterDepartmentId"
+                       asp-route-page="@(Model.CurrentPage - 1)">
+                        &laquo; Prev
+                    </a>
+                </li>
+
+                
+                @for (int p = 1; p <= Model.TotalPages; p++)
+                {
+                    <li class="page-item @(p == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="GetAll"
+                           asp-route-searchName="@Model.SearchName"
+                           asp-route-filterDepartmentId="@Model.FilterDepartmentId"
+                           asp-route-page="@p">
+                            @p
+                        </a>
+                    </li>
+                }
+
+                
+                <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="GetAll"
+                       asp-route-searchName="@Model.SearchName"
+                       asp-route-filterDepartmentId="@Model.FilterDepartmentId"
+                       asp-route-page="@(Model.CurrentPage + 1)">
+                        Next &raquo;
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    }
+}
+

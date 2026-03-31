@@ -1,0 +1,64 @@
+﻿@model MVC_Day2.ViewModels.DepartmentDetailsViewModel
+
+@{
+    ViewData["Title"] = "Department Details";
+    var stateBadge = Model.DepartmentState == "Main" ? "bg-success" : "bg-secondary";
+}
+
+<h2 class="mb-4">Department Details</h2>
+
+<div class="card shadow-sm mb-4" style="max-width: 620px;">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">@Model.DepartmentName</h5>
+        <span class="badge @stateBadge fs-6">@Model.DepartmentState</span>
+    </div>
+
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-5">Department ID</dt>
+            <dd class="col-sm-7">@Model.DepartmentId</dd>
+
+            <dt class="col-sm-5">Manager</dt>
+            <dd class="col-sm-7">@Model.ManagerName</dd>
+
+            <dt class="col-sm-5">Total Students</dt>
+            <dd class="col-sm-7">@Model.TotalStudentCount</dd>
+
+            <dt class="col-sm-5">State Rule</dt>
+            <dd class="col-sm-7">
+                @if (Model.DepartmentState == "Main")
+                {
+                    <span class="text-success">Main (more than 50 students)</span>
+                }
+                else
+                {
+                    <span class="text-secondary">Branch (50 or fewer students)</span>
+                }
+            </dd>
+        </dl>
+
+        <hr />
+
+        <h6 class="mb-2">Students older than 25 years</h6>
+
+        @if (Model.StudentsOver25.Any())
+        {
+            <select class="form-select" asp-items="Model.StudentsOver25">
+                <option value="">-- Select a student --</option>
+            </select>
+            <small class="text-muted mt-1 d-block">
+                @Model.StudentsOver25.Count student(s) aged over 25 in this department.
+            </small>
+        }
+        else
+        {
+            <div class="alert alert-info py-2">
+                No students older than 25 in this department.
+            </div>
+        }
+    </div>
+
+    <div class="card-footer">
+        <a asp-action="ShowAll" class="btn btn-secondary">← Back to All Departments</a>
+    </div>
+</div>
