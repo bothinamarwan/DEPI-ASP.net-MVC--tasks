@@ -1,0 +1,32 @@
+﻿@model List<TaskManagementSystem.Models.TaskItem>
+
+<h2>Tasks</h2>
+
+<a href="/Task/Create">Create</a> |
+<a href="/Task/Index">All</a> |
+<a href="/Task/Filter?status=true">Completed</a> |
+<a href="/Task/Filter?status=false">Pending</a> |
+<a href="/Task/Sort">Sort by DueDate</a>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>DueDate</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Title</td>
+            <td>@(item.IsCompleted ? "Done" : "Pending")</td>
+            <td>@item.DueDate</td>
+            <td>
+                <a href="/Task/Details/@item.Id">Details</a> |
+                <a href="/Task/Edit/@item.Id">Edit</a> |
+                <a href="/Task/Delete/@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

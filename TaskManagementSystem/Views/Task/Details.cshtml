@@ -1,0 +1,11 @@
+﻿@model TaskManagementSystem.Models.TaskItem
+
+<h2>Details</h2>
+
+<p>@Model.Title</p>
+<p>@Model.Description</p>
+<p>@Model.CreatedAt</p>
+<p>@Model.DueDate</p>
+<p>@(Model.IsCompleted ? "Done" : "Pending")</p>
+
+<a href="/Task/Index">Back</a>

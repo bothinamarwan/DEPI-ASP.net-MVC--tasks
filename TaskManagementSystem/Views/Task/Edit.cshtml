@@ -1,0 +1,14 @@
+﻿@model TaskManagementSystem.Models.TaskItem
+
+<h2>Edit</h2>
+
+<form method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    Title: <input name="Title" value="@Model.Title" /><br />
+    Description: <input name="Description" value="@Model.Description" /><br />
+    DueDate: <input type="datetime-local" name="DueDate" value="@Model.DueDate?.ToString("yyyy-MM-ddTHH:mm")" /><br />
+    Done: <input type="checkbox" name="IsCompleted" @(Model.IsCompleted ? "checked" : "") /><br />
+
+    <button type="submit">Update</button>
+</form>
